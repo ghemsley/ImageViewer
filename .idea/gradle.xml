@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/mnt/data/Development/AndroidStudioProjects/ImageViewer" />
+            <option value="/mnt/data/Development/AndroidStudioProjects/ImageViewer/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
