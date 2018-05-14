@@ -3,16 +3,14 @@ package com.example.android.imageviewer;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.koushikdutta.ion.Ion;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -97,7 +95,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.imageView);
+        mContentView = findViewById(R.id.photoView);
 
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -173,9 +171,9 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void showImage(Uri uri){
-        ImageView imageView = findViewById(R.id.imageView);
-        imageView.setImageURI(uri);
-        Ion.with(imageView).load(uri.toString());
+        PhotoView photoView = findViewById(R.id.photoView);
+        photoView.setImageURI(uri);
+        photoView.animate();
     }
 
 }
