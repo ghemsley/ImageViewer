@@ -5,20 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.github.chrisbanes.photoview.PhotoView;
-
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
+import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.android.example.imageviewer.MESSAGE";
-    Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivityForResult(intent, READ_REQUEST_CODE);
 
+
 //        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 //        startActivityForResult(intent, REQUEST_CODE_OPEN_DIRECTORY);
 
@@ -91,20 +87,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
-
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
         // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
         // response to some other intent, and the code below shouldn't run at all.
-
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
             if (resultData != null) {
-                uri = resultData.getData();
+                Toast loadingToast = Toast.makeText(getBaseContext(), "Loading image...", Toast.LENGTH_SHORT);
+                loadingToast.show();
+                Uri uri = resultData.getData();
                 Intent intent = new Intent(this, FullscreenActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, uri.toString());
                 startActivity(intent);

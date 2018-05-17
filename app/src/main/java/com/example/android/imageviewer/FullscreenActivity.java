@@ -10,7 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.github.chrisbanes.photoview.PhotoView;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -171,9 +172,10 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void showImage(Uri uri){
-        PhotoView photoView = findViewById(R.id.photoView);
-        photoView.setImageURI(uri);
-        photoView.animate();
+        SubsamplingScaleImageView photoView = findViewById(R.id.photoView);
+        photoView.setImage(ImageSource.uri(uri));
+        photoView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+        photoView.setDoubleTapZoomScale(1.0f);
     }
 
 }
