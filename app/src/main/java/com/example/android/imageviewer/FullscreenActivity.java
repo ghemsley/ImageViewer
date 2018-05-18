@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -30,13 +32,14 @@ public class FullscreenActivity extends AppCompatActivity {
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
      */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
 
     /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
      */
-    private static final int UI_ANIMATION_DELAY = 300;
+    private static final int UI_ANIMATION_DELAY = 150;
+    private int mOrientation = 0;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -121,6 +124,39 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_fullscreen, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_rotate) {
+            onActionRotate();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onActionRotate() {
+        SubsamplingScaleImageView photoView = findViewById(R.id.photoView);
+        if (mOrientation < 270) {
+            mOrientation += 90;
+        } else {
+            mOrientation = 0;
+        }
+        photoView.setOrientation(mOrientation);
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
@@ -175,18 +211,26 @@ public class FullscreenActivity extends AppCompatActivity {
 
     public void showImage(Uri uri){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        float doubleTapZoomRatio = 1.0f;
-        try {
-            doubleTapZoomRatio = Float.parseFloat(preferences.getString("doubletapzoom", "1.0"));
+        float doubleTapZoomScale = 1.0f;
+        float maximumZoomScale = 1.0f;
+        int doubleTapZoomDuration = 150;
+        try {   //settings are stored as strings
+            doubleTapZoomScale = Float.parseFloat(preferences.getString("doubleTapZoomScale", "1.0"));
+            maximumZoomScale = Float.parseFloat(preferences.getString("maximumZoomScale", "2.0"));
+            doubleTapZoomDuration = Integer.parseInt(preferences.getString("doubleTapZoomDuration", "150"));
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            doubleTapZoomRatio = 1.0f;
+            doubleTapZoomScale = 1.0f;
+            maximumZoomScale = 2.0f;
+            doubleTapZoomDuration = 150;
         }
         SubsamplingScaleImageView photoView = findViewById(R.id.photoView);
         photoView.setImage(ImageSource.uri(uri));
         photoView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
-        photoView.setDoubleTapZoomScale(doubleTapZoomRatio);
+        photoView.setDoubleTapZoomScale(doubleTapZoomScale);
+        photoView.setMaxScale(maximumZoomScale);
+        photoView.setDoubleTapZoomDuration(doubleTapZoomDuration);
     }
 
 }

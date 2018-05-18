@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-            if (resultData != null) {
+            if (resultData != null) {   //TODO: fix toast not appearing on time
                 Toast loadingToast = Toast.makeText(getBaseContext(), "Loading image...", Toast.LENGTH_SHORT);
                 loadingToast.show();
                 Uri uri = resultData.getData();

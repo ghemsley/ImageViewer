@@ -1,13 +1,33 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
-        android:name="Double-tap zoom ratio"
+        android:name="Double-tap zoom scale"
         android:enabled="true"
         android:persistent="true"
         android:summary="How far to zoom in on a double-tap"
         android:defaultValue="1.0"
-        android:title="Double-tap zoom ratio"
-        android:key="doubletapzoom"
+        android:title="Double-tap zoom scale"
+        android:key="doubleTapZoomScale"
         android:numeric="decimal"/>
+
+    <EditTextPreference
+        android:name="Maximum zoom scale"
+        android:enabled="true"
+        android:persistent="true"
+        android:summary="Maximum scale when zooming in"
+        android:defaultValue="2.0"
+        android:title="Maximum zoom scale"
+        android:key="maximumZoomScale"
+        android:numeric="decimal"/>
+
+    <EditTextPreference
+        android:name="Zoom animation speed"
+        android:enabled="true"
+        android:persistent="true"
+        android:summary="Zoom animation speed in milliseconds"
+        android:defaultValue="150"
+        android:title="Zoom animation speed"
+        android:key="doubleTapZoomDuration"
+        android:numeric="integer"/>
 
 </PreferenceScreen>
