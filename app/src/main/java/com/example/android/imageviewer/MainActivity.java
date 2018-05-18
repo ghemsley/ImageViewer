@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -81,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
 //        startActivityForResult(intent, REQUEST_CODE_OPEN_DIRECTORY);
 
     }
-
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {

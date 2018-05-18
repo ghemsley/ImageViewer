@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:name="Double-tap zoom ratio"
+        android:enabled="true"
+        android:persistent="true"
+        android:summary="How far to zoom in on a double-tap"
+        android:defaultValue="1.0"
+        android:title="Double-tap zoom ratio"
+        android:key="doubletapzoom"
+        android:numeric="decimal"/>
+
+</PreferenceScreen>

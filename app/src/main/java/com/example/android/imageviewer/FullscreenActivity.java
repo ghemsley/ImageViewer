@@ -2,9 +2,11 @@ package com.example.android.imageviewer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -172,10 +174,19 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void showImage(Uri uri){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float doubleTapZoomRatio = 1.0f;
+        try {
+            doubleTapZoomRatio = Float.parseFloat(preferences.getString("doubletapzoom", "1.0"));
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            doubleTapZoomRatio = 1.0f;
+        }
         SubsamplingScaleImageView photoView = findViewById(R.id.photoView);
         photoView.setImage(ImageSource.uri(uri));
         photoView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
-        photoView.setDoubleTapZoomScale(1.0f);
+        photoView.setDoubleTapZoomScale(doubleTapZoomRatio);
     }
 
 }
