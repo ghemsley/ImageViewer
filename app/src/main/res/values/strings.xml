@@ -15,5 +15,6 @@
     <!-- Example settings for Notifications -->
 
     <string name="pref_ringtone_silent">Silent</string>
+    <string name="title_activity_gallery">Image Viewer</string>
 
 </resources>
