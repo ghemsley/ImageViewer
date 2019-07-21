@@ -18,22 +18,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
 
-        final FloatingActionButton fabImage = (FloatingActionButton) findViewById(R.id.fabImage);
+        final FloatingActionButton fabImage = findViewById(R.id.fabImage);
         fabImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseImage();
-            }
-        });
-
-        final FloatingActionButton fabDirectory = (FloatingActionButton) findViewById(R.id.fabDirectory);
-        fabDirectory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseDirectory();
             }
         });
     }
@@ -63,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final int READ_REQUEST_CODE_IMAGE = 42;
-    private static final int READ_REQUEST_CODE_DIRECTORY = 24;
 
     /**
      * Fires an intent to spin up the "file chooser" UI and select an image.
@@ -72,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
         // Filter to only show results that can be "opened", such as a
         // file (as opposed to a list of contacts or timezones)
@@ -92,11 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void chooseDirectory() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, READ_REQUEST_CODE_DIRECTORY);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
@@ -110,18 +96,6 @@ public class MainActivity extends AppCompatActivity {
             if (resultData != null) {
                 Uri uri = resultData.getData();
                 Intent intent = new Intent(this, FullscreenActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, uri.toString());
-                startActivity(intent);
-            }
-        }
-        if (requestCode == READ_REQUEST_CODE_DIRECTORY && resultCode == Activity.RESULT_OK) {
-            // The document selected by the user won't be returned in the intent.
-            // Instead, a URI to that document will be contained in the return intent
-            // provided to this method as a parameter.
-            // Pull that URI using resultData.getData().
-            if (resultData != null) {
-                Uri uri = resultData.getData();
-                Intent intent = new Intent(this, GalleryActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, uri.toString());
                 startActivity(intent);
             }

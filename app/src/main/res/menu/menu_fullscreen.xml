@@ -9,4 +9,11 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="200"
+        android:title="Share"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

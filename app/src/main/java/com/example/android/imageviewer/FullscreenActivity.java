@@ -22,6 +22,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -143,6 +144,17 @@ public class FullscreenActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_share) {
+            Intent intent = getIntent();
+            String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            Uri uri = Uri.parse(message);
+            Intent share = new Intent();
+            share.setAction(Intent.ACTION_SEND);
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.setType("image/jpeg");
+            startActivity(share);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -209,7 +221,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public void showImage(Uri uri){
+    public void showImage(final Uri uri){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         float doubleTapZoomScale = 1.0f;
         float maximumZoomScale = 1.0f;
@@ -231,6 +243,20 @@ public class FullscreenActivity extends AppCompatActivity {
         photoView.setDoubleTapZoomScale(doubleTapZoomScale);
         photoView.setMaxScale(maximumZoomScale);
         photoView.setDoubleTapZoomDuration(doubleTapZoomDuration);
+        View.OnLongClickListener listener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent share = new Intent();
+                share.setAction(Intent.ACTION_SEND);
+                share.putExtra(Intent.EXTRA_STREAM, uri);
+                share.setType("image/jpeg");
+                startActivity(share);
+                return true;
+            }
+        };
+        photoView.setOnLongClickListener(listener);
     }
 
 }
+
+
