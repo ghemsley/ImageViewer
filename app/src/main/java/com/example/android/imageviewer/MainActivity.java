@@ -2,14 +2,17 @@ package com.example.android.imageviewer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.android.example.imageviewer.MESSAGE";
@@ -95,11 +98,35 @@ public class MainActivity extends AppCompatActivity {
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 Uri uri = resultData.getData();
+                Toast toast = Toast.makeText(this, "Loading image " + getFileName(uri), Toast.LENGTH_SHORT);
+                toast.show();
                 Intent intent = new Intent(this, FullscreenActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, uri.toString());
                 startActivity(intent);
             }
         }
+    }
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }
 

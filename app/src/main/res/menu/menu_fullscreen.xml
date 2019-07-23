@@ -16,4 +16,11 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:title="Delete"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom"
+        android:id="@+id/action_delete"
+        />
+
 </menu>
